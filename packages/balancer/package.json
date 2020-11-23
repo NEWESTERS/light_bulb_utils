@@ -1,24 +1,21 @@
 {
-  "name": "@smart-light/connection",
+  "name": "@smart-light/balancer",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "clean": "rimraf build && rimraf tsconfig.tsbuildinfo",
     "build": "npm run clean && tsc -b",
-    "test": "ts-node -r tsconfig-paths/register src/tests/index.ts"
-  },
-  "dependencies": {
-    "@smart-light/colors": "*",
-    "@smart-light/balancer": "*"
+    "test": "ts-node src/tests/index.ts"
   },
   "devDependencies": {
     "ts-node": "^9.0.0",
     "@types/node": "^14.14.9",
     "typescript": "^4.0.5",
-    "rimraf": "3.0.2",
-    "tsconfig-paths": "^3.9.0",
-    "dotenv": "^8.2.0"
+    "rimraf": "3.0.2"
   },
   "keywords": [],
   "author": "",
