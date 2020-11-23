@@ -1,8 +1,12 @@
 {
     "compilerOptions": {
-        "lib": ["ES2015", "DOM"],
-        "allowJs": true,
-        "noEmit": true,
-        "esModuleInterop": true
+        "module": "commonjs",
+		"target": "es6",
+        "lib": ["ES2015", "DOM", "ES6"],
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "@smart-light/*": ["packages/*/src"]
+        }
     }
 }

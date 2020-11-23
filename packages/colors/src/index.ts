@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import Vibrant from "node-vibrant";
 import Color from "color";
 
 export type RGBColor = [number, number, number];
@@ -14,10 +14,6 @@ export function isColorsSame(color1: RGBColor, color2: RGBColor) {
   );
 }
 
-export function printColor(color: RGBColor) {
-  console.log("Color: ", color.toString(), chalk.bgRgb(...color)("  "));
-}
-
 export function isPrioritizedColor(color: RGBColor) {
   const hslColor = Color.rgb(color).hsl();
 
@@ -26,4 +22,16 @@ export function isPrioritizedColor(color: RGBColor) {
     hslColor[1] >= 85 &&
     hslColor[2] >= 45
   );
+}
+
+export async function getImageVibrancePalette(imageData: Buffer) {
+  return Vibrant.from(imageData).getPalette();
+}
+
+export async function getImageVibrantColor(
+  imageData: Buffer
+): Promise<RGBColor> {
+  const palette = await getImageVibrancePalette(imageData);
+
+  return palette.Vibrant.rgb;
 }
