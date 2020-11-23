@@ -1,11 +1,15 @@
 import chalk from "chalk";
 import dotenv from "dotenv";
+import {
+  isColorsSame,
+  isPrioritizedColor,
+  RGBColor,
+  getImageVibrantColor,
+} from "@smart-light/colors";
+import { createLightBulb, getRGBInteger } from "@smart-light/light-bulb";
+import { createUsbScreenshoter } from "@smart-light/usb-screenshoter";
 
-import { isColorsSame, isPrioritizedColor, RGBColor } from "./dataModel";
-import { getImageVibrantColor } from "./ImageProcessing";
-import { createLightBulb, getRGBInteger } from "./LightBulb";
 import { pipify } from "./pipify";
-import { createUsbScreenshoter } from "./UsbScreenshoter";
 
 dotenv.config();
 

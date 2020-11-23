@@ -1,6 +1,4 @@
-import chalk from "chalk";
-
-import { RGBColor } from "../dataModel";
+import { RGBColor } from "@smart-light/colors";
 
 export function getRGBInteger(color: RGBColor): number {
   return color[0] * 65536 + color[1] * 256 + color[2];
@@ -12,14 +10,4 @@ export function getRGBFromInteger(colorInteger: number): RGBColor {
     red = Math.ceil(colorInteger / 65536);
 
   return [red, green, blue];
-}
-
-export function handleError(data: any) {
-  try {
-    const error = JSON.parse(data.toString("utf8").split("\r\n")[0]).error;
-
-    if (error) {
-      console.log(chalk.red(error.message));
-    }
-  } catch (err) {}
 }
