@@ -1,0 +1,14 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "build",
+        "composite": true,
+        "declaration": true
+    },
+    "references": [
+        { "path": "../colors" },
+        { "path": "../light-bulb" },
+        { "path": "../usb-screenshoter" },
+    ]
+}

@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import { Socket } from "net";
 
 import { LightBulbCommand } from "./commands";
@@ -48,7 +47,7 @@ export async function createLightBulb(address: string) {
           error = JSON.parse(rows[0]).error;
 
         if (error) {
-          listener(chalk.red(`Light bulb error: ${error.message}`));
+          listener(`Light bulb error: ${error.message}`);
         }
       } catch (err) {}
     });
