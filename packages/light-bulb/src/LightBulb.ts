@@ -1,4 +1,5 @@
 import { Socket } from "net";
+import { QuotaBalancer } from "@smart-light/balancer";
 
 import { LightBulbCommand } from "./commands";
 
@@ -17,39 +18,55 @@ async function connectDevice(address: string, port: number): Promise<Socket> {
 }
 
 export async function createLightBulb(address: string) {
-  const socket = await connectDevice(address, 55443);
+  const sockets = [
+    await connectDevice(address, 55443),
+    await connectDevice(address, 55443),
+    await connectDevice(address, 55443),
+  ];
 
-  let id = 1;
+  const socketBalancer = new QuotaBalancer(sockets, {
+    timeout: 60000,
+    maxAccessCount: 47,
+  });
 
   const sendCommand = async (command: LightBulbCommand) => {
     return new Promise((resolve, reject) => {
-      const commandString = `${JSON.stringify({ id, ...command })}\r\n`;
-      id = id === 1 ? 2 : 1;
+      const commandString = `${JSON.stringify({ id: 1, ...command })}\r\n`;
 
-      socket.write(commandString, (error) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(command);
-        }
+      const hasWritten = socketBalancer.call((socket) => {
+        socket.write(commandString, (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(command);
+          }
+        });
       });
+
+      if (!hasWritten) {
+        reject("Balancer error: Quota exceeded");
+      }
     });
   };
 
   const closeConnection = () => {
-    socket.destroy();
+    sockets.forEach((socket) => {
+      socket.destroy();
+    });
   };
 
   const onError = (listener: (message: string) => void) => {
-    socket.on("data", (data) => {
-      try {
-        const rows = data.toString("utf8").split("\r\n"),
-          error = JSON.parse(rows[0]).error;
+    sockets.forEach((socket) => {
+      socket.on("data", (data) => {
+        try {
+          const rows = data.toString("utf8").split("\r\n"),
+            error = JSON.parse(rows[0]).error;
 
-        if (error) {
-          listener(`Light bulb error: ${error.message}`);
-        }
-      } catch (err) {}
+          if (error) {
+            listener(`Light bulb error: ${error.message}`);
+          }
+        } catch (err) {}
+      });
     });
   };
 
