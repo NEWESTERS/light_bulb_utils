@@ -10,9 +10,13 @@ Main idea of this project is in setting bulb light color in sync with image in g
 
 ## Project contains
 
-### @smart-light/colors
+### [@smart-light/colors](packages/colors)
 
 Utilities to operate with colors
+
+### [@smart-light/balancer](packages/balancer)
+
+Utilities to distribute method calls between multiple class instances
 
 ### [@smart-light/light-bulb](packages/light-bulb)
 
@@ -22,6 +26,6 @@ Utilities to connect and send commands to **yeelight** light bulb
 
 Utilities to initialize connection with usb recording device and take images from it
 
-### @smart-light/example
+### [@smart-light/example](packages/example)
 
 Simple example on how to use packages
